@@ -1,2 +1,2 @@
 # image-watermark
-A powerful watermark library based on GraphicsMagick for node.js
+A powerful watermark library based on ImageMagick for node.js

@@ -1,0 +1,25 @@
+{
+	"name"            : "image-watermark",
+	"version"         : "0.0.1",
+	"description"     : "A powerful watermark library based on ImageMagick for node.js",
+	"main" 			  : "./watermark.js",
+	"dependencies"    : {
+		"imagemagick" : "" ,
+		"node-ratify" : ""
+	},
+	"keywords"		  : [
+	    "watermark", "image-watermark"
+	],
+	"repository"      : {
+		"type" : "git",
+		"url"  : "https://github.com/luthraG/image-watermark.git"
+	},
+	"bugs"            : {
+		"url" : "https://github.com/luthraG/image-watermark/issues"
+	},
+	"author"          : {
+		"name"  : "Gaurav Luthra",
+		"email" : "luthra.zenith@gmail.com"
+	},
+	"license" : "MIT"
+}
