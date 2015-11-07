@@ -11,6 +11,7 @@ var fs 	   = require('fs'),
 	path   = require('path'),
 	ratify = require('node-ratify');
 
+// Possible values of align are : dia1, dia2, ttb, btt, ltr, rtl
 var defaultOptions = {
 	'text' 				: 'Sample watermark',
 	'override-image'	: false,
@@ -18,8 +19,29 @@ var defaultOptions = {
 	'output-format'		: 'jpg',
 	'position'			: 'Center',
 	'color'				: 'grey',
-	'angle'				: 'auto',
 	'resize' 			: '100%'
+}
+
+//
+// Check if the alignment passed
+// is a valid alignment value
+//
+function _isValidAlignment(align) {
+	if (ratify.isEmpty(align))
+		return false;
+
+	//
+	// dia1 : Diagonal 1
+	// dia2 : Diagonal 2
+	// ttb : top to bottom
+	// btt : bottom to top
+	// ltr : left to right
+	// rtl : right to left
+	//
+	if (['dia1', 'dia2', 'ttb', 'btt', 'ltr', 'rtl'].indexOf(align.toLowerCase()) > -1)
+		return true;
+
+	return false;
 }
 
 function embedWatermark(source, options) {
@@ -51,9 +73,11 @@ function embedWatermark(source, options) {
         var watermarkText = options.text;
         var position = null;
         var angle = null;
+        var pointsize = null;
+        var align = _isValidAlignment(options.align) ? options.align.toLowerCase() : 'dia1';
         var font = options.font;
         var resize = options.resize ? options.resize : defaultOptions.resize;
-        var outputPath = path.dirname(source) + '/watermark' + path.extname(source);;
+        var outputPath = path.dirname(source) + '/watermark' + path.extname(source);
 
         // Check if fillColor is specified
         if (ratify.isEmpty(fillColor))
@@ -66,10 +90,6 @@ function embedWatermark(source, options) {
         // Check if position is specified
         if (ratify.isEmpty(position))
         	position = defaultOptions.position;
-
-        // Check if font is specified
-        if (ratify.isEmpty(font))
-        	font = defaultOptions.font;
 
 	  	// Check if image needs to be overriden
 	  	if (options['override-image'] && ratify.isBoolean(options['override-image'])
@@ -89,14 +109,6 @@ function embedWatermark(source, options) {
 	  		outputPath = path.dirname(outputPath) + '/' + path.basename(outputPath, path.extname(outputPath)) + '.' + outputFormat;
 	  	}
 
-	  	if (!ratify.isNull(angle) && ratify.isNumeric(angle)) {
-	  		// angle = parseFloat(angle);
-
-	  		angle = (Math.atan(height / width) * (180/Math.PI)) * -1;
-	  	} else {
-	  		angle = (Math.atan(height / width) * (180/Math.PI)) * -1;
-	  	}
-
 	  	var pointWidth = width,
 	  		pointHeight = height;
 
@@ -109,7 +121,34 @@ function embedWatermark(source, options) {
 	  		pointHeight = height * resizeFactor;
 	  	}
 
-	  	var pointsize = Math.sqrt(pointWidth * pointWidth + pointHeight * pointHeight) / watermarkText.length;
+	  	switch(align) {
+	  		case 'ltr'  :
+	  						angle = 0;
+	  						pointsize = (pointWidth / watermarkText.length);
+	  						break; 
+	  		case 'rtl'  : 
+	  						angle = 180;
+	  						pointsize = (pointWidth / watermarkText.length);
+	  						break;
+	  		case 'ttb'  :
+	  						angle = 90;
+	  						pointsize = (pointHeight / watermarkText.length);
+	  						break;
+	  		case 'btt'  :
+	  						angle = 270;
+	  						pointsize = (pointHeight / watermarkText.length);
+	  						break;
+	  		case 'dia1' :
+	  						angle = (Math.atan(height / width) * (180/Math.PI)) * -1;
+	  						pointsize = Math.sqrt(pointWidth * pointWidth + pointHeight * pointHeight) / watermarkText.length;
+	  						break;
+	  		case 'dia2' :
+	  						angle = (Math.atan(height / width) * (180/Math.PI));
+	  						var pointsize = Math.sqrt(pointWidth * pointWidth + pointHeight * pointHeight) / watermarkText.length;
+	  						break;
+	  		default     : 
+	  						break;
+	  	}
 
         var args = [];
         args.push(source); // original img path
@@ -117,7 +156,7 @@ function embedWatermark(source, options) {
         args.push(width + 'x' + height);
         args.push('-resize');
         args.push(resize);
-        if (!ratify.isNull(font)) {
+        if (!ratify.isEmpty(font)) {
         	args.push('-font');
         	args.push(font);
         }
