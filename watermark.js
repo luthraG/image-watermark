@@ -19,8 +19,7 @@ var defaultOptions = {
 	'position'			: 'Center',
 	'color'				: 'grey',
 	'angle'				: 'auto',
-	'resize' 			: '100%',
-	'font'				: 'Arial.ttf'
+	'resize' 			: '100%'
 }
 
 function embedWatermark(source, options) {
@@ -118,8 +117,10 @@ function embedWatermark(source, options) {
         args.push(width + 'x' + height);
         args.push('-resize');
         args.push(resize);
-        args.push('-font');
-        args.push('font');
+        if (!ratify.isNull(font)) {
+        	args.push('-font');
+        	args.push(font);
+        }
         args.push('-fill');
         args.push(fillColor);  // Color of watermark text
         args.push('-pointsize');
