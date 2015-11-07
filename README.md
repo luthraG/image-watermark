@@ -14,10 +14,8 @@ watermark.embedWatermark('/path/to/image/file', [options]);
 ```
 
 ### Clone the repo
-```javascript
 
-https://github.com/luthraG/image-watermark.git
-```
+git clone https://github.com/luthraG/image-watermark.git
 
 ### API
 
@@ -27,7 +25,7 @@ API to embed watermark in given image. It takes two arguments :
 1. path of the image and 
 2. options object.
 
-#####Example
+**Example**
 
 ```javascript
 var watermark = require('image-watermark');
@@ -35,7 +33,7 @@ var watermark = require('image-watermark');
 watermark.embedWatermark('\home\user\sample.jpg', {'text' : 'sample watermark'});
 ```
 
-#####Different Options
+**Different Options**
 
 ```javascript
 //
@@ -112,6 +110,30 @@ var options = {
 };
 watermark.embedWatermark('\home\user\sample.jpg', options);
 
+//
+// Options to specify the alignment of watermark text
+//
+var watermark = require('image-watermark');
+var options = {
+	'text' : 'sample watermark', 
+	'align' : 'ltr'
+};
+watermark.embedWatermark('\home\user\sample.jpg', options);
+
+// Various possble values of align are:
+
+//
+// dia1 : Diagonal 1
+// dia2 : Diagonal 2
+// ttb : top to bottom
+// btt : bottom to top
+// ltr : left to right
+// rtl : right to left
+//
+
+// If an invalid value is specified or in case no value
+// is specified then 'dial1' is treated as default alignment
+
 ```
 
 #### version
@@ -127,7 +149,7 @@ watermark.version;
 ```
 
 ### Inspiration
-- **https://www.npmjs.com/package/imagemagick**
+[https://www.npmjs.com/package/imagemagick](https://www.npmjs.com/package/imagemagick)
 
 ### License(MIT)
 
