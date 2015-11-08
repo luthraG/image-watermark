@@ -23,7 +23,20 @@ git clone https://github.com/luthraG/image-watermark.git
 
 API to embed watermark in given image. It takes two arguments : 
 1. path of the image and 
-2. options object.
+2. options object
+
+**Options**
+
+Various options supported by this API are :
+- **text** - To specify watermark text. Default is 'Sample watermark'.
+- **color** - To specify color of watermark text. Default is 'Grey'.
+- **dstPath** - To specify the output path. Default is 'watermark.{sourceFile ext}'.
+- **override-image** - To specify if same image needs to be overriden. Default is 'false'.
+- **change-format** - To specify if the format of output file needs to be changed. Default is 'false'.
+- **output-format** - Used in conjuction with change-format to specify the format of output file.
+- **align** - To specify the watermark text alignment. Default is 'dia1'.
+- **font** - To specify font of watermark text.
+- **resize** - To specify the resize percentage for output file.
 
 **Example**
 
@@ -41,6 +54,16 @@ watermark.embedWatermark('\home\user\sample.jpg', {'text' : 'sample watermark'})
 //
 var watermark = require('image-watermark');
 watermark.embedWatermark('\home\user\sample.jpg', {'text' : 'sample watermark'});
+
+//
+// Options to specify output path
+//
+var watermark = require('image-watermark');
+var options = {
+	'text' : 'sample watermark', 
+	'dstPath' : '\home\user\documents\watermark.jpg'
+};
+watermark.embedWatermark('\home\user\sample.jpg', options);
 
 //
 // Options to specify color of watermark text

@@ -71,13 +71,14 @@ function embedWatermark(source, options) {
         var height = imageData.height;
         var fillColor = options.color;
         var watermarkText = options.text;
-        var position = null;
-        var angle = null;
-        var pointsize = null;
         var align = _isValidAlignment(options.align) ? options.align.toLowerCase() : 'dia1';
         var font = options.font;
         var resize = options.resize ? options.resize : defaultOptions.resize;
-        var outputPath = path.dirname(source) + '/watermark' + path.extname(source);
+        var outputPath = options.dstPath ? options.dstPath : 
+        				 path.dirname(source) + '/watermark' + path.extname(source);
+        var  position = null,
+        	    angle = null,
+            pointsize = null;
 
         // Check if fillColor is specified
         if (ratify.isEmpty(fillColor))
@@ -103,10 +104,23 @@ function embedWatermark(source, options) {
 
 	  		var outputFormat = options['output-format'];
 
-	  		if (ratify.isEmpty(outputFormat))
-	  			outputFormat = defaultOptions['output-format'];
+	  		if (ratify.isEmpty(outputFormat) || outputFormat.length < 2)
+	  			outputFormat = path.extname(source).substr(1);
 
-	  		outputPath = path.dirname(outputPath) + '/' + path.basename(outputPath, path.extname(outputPath)) + '.' + outputFormat;
+	  		outputPath = path.dirname(outputPath) + '/' + 
+	  					 path.basename(outputPath, path.extname(outputPath)) + 
+	  					 '.' + outputFormat;
+	  	}
+
+	  	// Check if extension of output path is valid
+	  	if (outputPath) {
+
+	  		var ext = path.extname(outputPath).substr(1);
+
+	  		if (!ext || ext.length < 2)
+	  			outputPath = path.dirname(outputPath) + '/' + 
+	  						 path.basename(outputPath, path.extname(outputPath)) + 
+	  						 path.extname(source);
 	  	}
 
 	  	var pointWidth = width,
