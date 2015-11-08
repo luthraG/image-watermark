@@ -1,5 +1,5 @@
 # image-watermark
-A powerful watermark library based on ImageMagick for node.js
+A powerful watermark library based on ImageMagick for node.js. This can be used to embed watermark in single page image, multipage image or pdf file.
 
 ### Installation
 
@@ -10,7 +10,7 @@ A powerful watermark library based on ImageMagick for node.js
 ```javascript
 var watermark = require('image-watermark');
 
-watermark.embedWatermark('/path/to/image/file', [options]);
+watermark.embedWatermark('/path/to/image_or_pdf/file', [options]);
 ```
 
 ### Clone the repo
@@ -19,11 +19,12 @@ git clone https://github.com/luthraG/image-watermark.git
 
 ### API
 
-#### embedWatermark
+#### embedWatermark(source, [options])
 
-API to embed watermark in given image. It takes two arguments : 
+API to embed watermark in given image/pdf. It takes two arguments : 
 1. path of the image and 
-2. options object
+2. options object. This argument is optional
+
 
 **Options**
 
@@ -156,6 +157,34 @@ watermark.embedWatermark('\home\user\sample.jpg', options);
 
 // If an invalid value is specified or in case no value
 // is specified then 'dial1' is treated as default alignment
+
+```
+
+#### embedWatermarkWithCb(source, [options], callback)
+API to embed watermark in given image/pdf with callback method. It takes three arguments : 
+1. path of the image and 
+2. options object. This argument is optional
+3. The callback method
+
+
+```javascript
+
+// Embed watermark with option object and callback method
+var watermark = require('image-watermark');
+var option = {'text' : 'sample watermark'};
+
+watermark.embedWatermarkWithCb('\home\user\sample.jpg', option, function(err) {
+	if (!err)
+		console.log('Succefully embeded watermark');
+});
+
+// Embed watermark with no option object and callback method
+var watermark = require('image-watermark');
+
+watermark.embedWatermarkWithCb('\home\user\sample.jpg', function(err) {
+	if (!err)
+		console.log('Succefully embeded watermark');
+});
 
 ```
 
