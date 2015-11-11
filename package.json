@@ -1,14 +1,14 @@
 {
 	"name"            : "image-watermark",
-	"version"         : "0.0.5",
-	"description"     : "A powerful watermark library for single page images, multipage images, and pdf files based on ImageMagick for node.js",
+	"version"         : "0.0.6",
+	"description"     : "A powerful watermark library for image and pdf files based on ImageMagick for node.js",
 	"main" 			  : "./watermark.js",
 	"dependencies"    : {
 		"imagemagick" : "" ,
 		"node-ratify" : ""
 	},
 	"keywords"		  : [
-	    "watermark", "image-watermark", "imagemagick-watermark", "pdf-watermark", "embed text", "imagemagick"
+	    "watermark", "image-watermark", "pdf-watermark", "imagemagick"
 	],
 	"repository"      : {
 		"type" : "git",
