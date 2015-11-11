@@ -12,13 +12,13 @@ var fs 	   = require('fs'),
 	ratify = require('node-ratify');
 
 var defaultOptions = {
-	'text' 				: 'Sample watermark',
+	'text' 				    : 'Sample watermark',
 	'override-image'	: false,
 	'change-format'		: false,
 	'output-format'		: 'jpg',
-	'position'			: 'Center',
-	'color'				: 'grey',
-	'resize' 			: '100%'
+	'position'			  : 'Center',
+	'color'				    : 'grey',
+	'resize' 			    : '100%'
 }
 
 //
@@ -210,7 +210,7 @@ function embedWatermarkWithCb(source, options, callback) {
 	
 	if ((arguments.length < 2) ||
 		(arguments.length === 2 && !ratify.isFunction(arguments[1])) ||
-		(arguments.length > 3 && !ratify.isFunction(arguments[2]))) {
+		(arguments.length > 2 && !ratify.isFunction(arguments[2]))) {
 		throw new Error('Image-Watermark::embedWatermarkWithCb : Invalid arguments to method embedWatermarkWithCb');
 	} else if (arguments.length === 2 && ratify.isFunction(arguments[1])) {
 		callback = arguments[1];
