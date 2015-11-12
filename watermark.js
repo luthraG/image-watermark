@@ -143,6 +143,8 @@ function _parseOptions(imageData, source, options) {
   						var pointsize = Math.sqrt(pointWidth * pointWidth + pointHeight * pointHeight) / watermarkText.length;
   						break;
   		default     : 
+              angle = (Math.atan(height / width) * (180/Math.PI)) * -1;
+              pointsize = Math.sqrt(pointWidth * pointWidth + pointHeight * pointHeight) / watermarkText.length;
   						break;
   	}
 
@@ -260,9 +262,9 @@ function embedWatermarkWithCb(source, options, callback) {
 
 
 exports = module.exports = {
-	embedWatermark 		  : embedWatermark,
+	embedWatermark 		    : embedWatermark,
 	embedWatermarkWithCb  : embedWatermarkWithCb,
-	version		   		  : JSON.parse(
-  							  require('fs').readFileSync(__dirname + '/package.json', 'utf8')
-					 	    ).version
+	version		   		      : JSON.parse(
+  							           require('fs').readFileSync(__dirname + '/package.json', 'utf8')
+					 	               ).version
 };
