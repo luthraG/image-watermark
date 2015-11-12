@@ -17,7 +17,7 @@ var defaultOptions = {
 	'change-format'		: false,
 	'output-format'		: 'jpg',
 	'position'			  : 'Center',
-	'color'				    : 'grey',
+	'color'				    : 'rgba(0,0,0,0.4)',
 	'resize' 			    : '100%'
 }
 
