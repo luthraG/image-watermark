@@ -21,8 +21,8 @@ git clone https://github.com/luthraG/image-watermark.git
 
 #### embedWatermark(source, [options])
 
-API to embed watermark in given image/pdf. It takes two arguments : 
-1. path of the image and 
+API to embed watermark in given image/pdf. It takes two arguments :
+1. path of the image and
 2. options object. This argument is optional
 
 
@@ -38,6 +38,8 @@ Various options supported by this API are :
 - **align** - To specify the watermark text alignment. Default is 'dia1'.
 - **font** - To specify font of watermark text.
 - **resize** - To specify the resize percentage for output file.
+- **position** - To specify the position of the watermark text.
+- **pointsize**- To specify the text size of the watermark text.
 
 **Example**
 
@@ -61,7 +63,7 @@ watermark.embedWatermark('\home\user\sample.jpg', {'text' : 'sample watermark'})
 //
 var watermark = require('image-watermark');
 var options = {
-	'text' : 'sample watermark', 
+	'text' : 'sample watermark',
 	'dstPath' : '\home\user\documents\watermark.jpg'
 };
 watermark.embedWatermark('\home\user\sample.jpg', options);
@@ -71,7 +73,7 @@ watermark.embedWatermark('\home\user\sample.jpg', options);
 //
 var watermark = require('image-watermark');
 var options = {
-	'text' : 'sample watermark', 
+	'text' : 'sample watermark',
 	'color' : 'rgb(154, 50, 46)'
 };
 watermark.embedWatermark('\home\user\sample.jpg', options);
@@ -93,7 +95,7 @@ rgb(100.0%, 0.0%, 0.0%)   a float in the range 0—100% for each component
 //
 var watermark = require('image-watermark');
 var options = {
-	'text' : 'sample watermark', 
+	'text' : 'sample watermark',
 	'resize' : '200%'
 };
 watermark.embedWatermark('\home\user\sample.jpg', options);
@@ -105,7 +107,7 @@ watermark.embedWatermark('\home\user\sample.jpg', options);
 //
 var watermark = require('image-watermark');
 var options = {
-	'text' : 'sample watermark', 
+	'text' : 'sample watermark',
 	'override-image' : true
 };
 watermark.embedWatermark('\home\user\sample.jpg', options);
@@ -118,7 +120,7 @@ watermark.embedWatermark('\home\user\sample.jpg', options);
 //
 var watermark = require('image-watermark');
 var options = {
-	'text' 			: 'sample watermark', 
+	'text' 			: 'sample watermark',
 	'change-format' : true,
 	'output-format' : 'bmp'
 };
@@ -129,7 +131,7 @@ watermark.embedWatermark('\home\user\sample.jpg', options);
 //
 var watermark = require('image-watermark');
 var options = {
-	'text' : 'sample watermark', 
+	'text' : 'sample watermark',
 	'font' : 'Arial.ttf'
 };
 watermark.embedWatermark('\home\user\sample.jpg', options);
@@ -139,7 +141,7 @@ watermark.embedWatermark('\home\user\sample.jpg', options);
 //
 var watermark = require('image-watermark');
 var options = {
-	'text' : 'sample watermark', 
+	'text' : 'sample watermark',
 	'align' : 'ltr'
 };
 watermark.embedWatermark('\home\user\sample.jpg', options);
@@ -156,13 +158,56 @@ watermark.embedWatermark('\home\user\sample.jpg', options);
 //
 
 // If an invalid value is specified or in case no value
-// is specified then 'dial1' is treated as default alignment
+// is specified then 'dia1' is treated as default align
+
+//
+// Options to specify the position of watermark text
+//
+var watermark = require('image-watermark');
+var options = {
+	'text' : 'sample watermark',
+	'position': 'South'
+};
+watermark.embedWatermark('\home\user\sample.jpg', options);
+
+// Various possble values of positions are:
+
+//
+// NorthWest
+// North
+// NorthEast
+// West
+// Center
+// East
+// SouthWest
+// South
+// SouthEast
+//
+
+// If an invalid value is specified or in case no value
+// is specified then 'Center' is treated as default position
+
+
+//
+// Options to specify the font size / pointsize of watermark text
+//
+var watermark = require('image-watermark');
+var options = {
+	'text' : 'sample watermark',
+	'pointsize': 40
+};
+watermark.embedWatermark('\home\user\sample.jpg', options);
+
+
+// If an invalid value is specified or in case no value
+// is specified then font size is auto calculated
 
 ```
 
+
 #### embedWatermarkWithCb(source, [options], callback)
-API to embed watermark in given image/pdf with callback method. It takes three arguments : 
-1. path of the image and 
+API to embed watermark in given image/pdf with callback method. It takes three arguments :
+1. path of the image and
 2. options object. This argument is optional
 3. The callback method
 
