@@ -18,7 +18,8 @@ var defaultOptions = {
 	'output-format'		: 'jpg',
 	'position'			  : 'Center',
 	'color'				    : 'rgba(0,0,0,0.4)',
-	'resize' 			    : '100%'
+	'resize' 			    : '100%',
+	'pointsize-scale' : 	1
 }
 
 //
@@ -56,6 +57,7 @@ function _parseOptions(imageData, source, options) {
     var align = _isValidAlignment(options.align) ? options.align.toLowerCase() : 'dia1';
     var font = options.font;
     var resize = options.resize ? options.resize : defaultOptions.resize;
+    var pointsize-scale = options.pointsize-scale ? options.pointsize-scale : defaultOptions.pointsize-scale;
     var outputPath = options.dstPath ? options.dstPath : 
     				 path.dirname(source) + '/watermark' + path.extname(source);
     var  position = null,
@@ -161,7 +163,7 @@ function _parseOptions(imageData, source, options) {
     args.push('-fill');
     args.push(fillColor);  // color of watermark text
     args.push('-pointsize');
-    args.push(pointsize); // this needs to be calculated dynamically based on image size and length of copyright message
+    args.push(pointsize*(pointsize-scale)); // this needs to be calculated dynamically based on image size and length of copyright message
     args.push('-gravity');
     args.push(position);    // alignment of watermark text.
     args.push('-annotate');
