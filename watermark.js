@@ -60,8 +60,20 @@ function _parseOptions(imageData, source, options) {
     				 path.dirname(source) + '/watermark' + path.extname(source);
     var  position = null,
     	    angle = null,
-        pointsize = null;
-
+				pointsize = null;
+		// Check if the folder exists, if not then make the folders
+		if(!fs.existsSync(outputPath)){
+			const separator = "/" || "\\";
+			const makePath = outputPath.split(separator);
+			makePath
+				.reduce((prevPath,folder,currentIndex) => {
+					const currentPath = path.join(prevPath, folder, separator);
+					if (currentIndex < makePath.length - 1 && !fs.existsSync(currentPath)){
+						fs.mkdirSync(currentPath);
+					}
+					return currentPath;
+				}, '');
+		}
     // Check if fillColor is specified
     if (ratify.isEmpty(fillColor))
     	fillColor = defaultOptions.color;
