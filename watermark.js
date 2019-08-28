@@ -45,21 +45,32 @@ function _isValidAlignment(align) {
 	return false;
 }
 
+function _isValidPosition(position) {
+	if (ratify.isEmpty(position))
+		return false;
+
+	if (['NorthWest', 'North', 'NorthEast', 'West', 'Center', 'East',
+			'SouthWest', 'South', 'SouthEast'].indexOf(position) > -1)
+		return true;
+
+	return false;
+}
+
 function _parseOptions(imageData, source, options) {
 
 	var retObj = {};
 
-	var width = imageData.width;
+		var width = imageData.width;
     var height = imageData.height;
     var fillColor = options.color;
     var watermarkText = options.text;
     var align = _isValidAlignment(options.align) ? options.align.toLowerCase() : 'dia1';
     var font = options.font;
     var resize = options.resize ? options.resize : defaultOptions.resize;
-    var outputPath = options.dstPath ? options.dstPath : 
+    var outputPath = options.dstPath ? options.dstPath :
     				 path.dirname(source) + '/watermark' + path.extname(source);
-    var  position = null,
-    	    angle = null,
+    var position = _isValidPosition(options.position) ? options.position : 'Center';
+    var	angle = null,
         pointsize = null;
 
     // Check if fillColor is specified
@@ -89,8 +100,8 @@ function _parseOptions(imageData, source, options) {
   		if (ratify.isEmpty(outputFormat) || outputFormat.length < 2)
   			outputFormat = path.extname(source).substr(1);
 
-  		outputPath = path.dirname(outputPath) + '/' + 
-  					 path.basename(outputPath, path.extname(outputPath)) + 
+  		outputPath = path.dirname(outputPath) + '/' +
+  					 path.basename(outputPath, path.extname(outputPath)) +
   					 '.' + outputFormat;
   	}
 
@@ -100,8 +111,8 @@ function _parseOptions(imageData, source, options) {
   		var ext = path.extname(outputPath).substr(1);
 
   		if (!ext || ext.length < 2)
-  			outputPath = path.dirname(outputPath) + '/' + 
-  						 path.basename(outputPath, path.extname(outputPath)) + 
+  			outputPath = path.dirname(outputPath) + '/' +
+  						 path.basename(outputPath, path.extname(outputPath)) +
   						 path.extname(source);
   	}
 
@@ -112,7 +123,7 @@ function _parseOptions(imageData, source, options) {
   		resize = defaultOptions.resize;
   	} else {
   		var resizeFactor = (parseFloat(resize) / 100);
-  		
+
   		pointWidth = width * resizeFactor;
   		pointHeight = height * resizeFactor;
   	}
@@ -120,31 +131,31 @@ function _parseOptions(imageData, source, options) {
   	switch(align) {
   		case 'ltr'  :
   						angle = 0;
-  						pointsize = (pointWidth / watermarkText.length);
-  						break; 
-  		case 'rtl'  : 
+  						pointsize = options.pointsize ? options.pointsize : (pointWidth / watermarkText.length);
+  						break;
+  		case 'rtl'  :
   						angle = 180;
-  						pointsize = (pointWidth / watermarkText.length);
+  						pointsize = options.pointsize ? options.pointsize : (pointWidth / watermarkText.length);
   						break;
   		case 'ttb'  :
   						angle = 90;
-  						pointsize = (pointHeight / watermarkText.length);
+  						pointsize = options.pointsize ? options.pointsize : (pointHeight / watermarkText.length);
   						break;
   		case 'btt'  :
   						angle = 270;
-  						pointsize = (pointHeight / watermarkText.length);
+  						pointsize = options.pointsize ? options.pointsize : (pointHeight / watermarkText.length);
   						break;
   		case 'dia1' :
   						angle = (Math.atan(height / width) * (180/Math.PI)) * -1;
-  						pointsize = Math.sqrt(pointWidth * pointWidth + pointHeight * pointHeight) / watermarkText.length;
+  						pointsize = options.pointsize ? options.pointsize : Math.sqrt(pointWidth * pointWidth + pointHeight * pointHeight) / watermarkText.length;
   						break;
   		case 'dia2' :
   						angle = (Math.atan(height / width) * (180/Math.PI));
-  						var pointsize = Math.sqrt(pointWidth * pointWidth + pointHeight * pointHeight) / watermarkText.length;
+  						var pointsize = options.pointsize ? options.pointsize : Math.sqrt(pointWidth * pointWidth + pointHeight * pointHeight) / watermarkText.length;
   						break;
-  		default     : 
+  		default     :
               angle = (Math.atan(height / width) * (180/Math.PI)) * -1;
-              pointsize = Math.sqrt(pointWidth * pointWidth + pointHeight * pointHeight) / watermarkText.length;
+              pointsize = options.pointsize ? options.pointsize : Math.sqrt(pointWidth * pointWidth + pointHeight * pointHeight) / watermarkText.length;
   						break;
   	}
 
@@ -168,7 +179,6 @@ function _parseOptions(imageData, source, options) {
     args.push(angle);   // angle of watermark message, with respect to X-axis
     args.push(watermarkText);  // copyright text
     args.push(outputPath); // img with embedded watermark
-
     retObj.args = args;
     retObj.outputPath = outputPath;
 
@@ -184,7 +194,7 @@ function embedWatermark(source, options) {
 	stats = fs.lstatSync(source);
 
 	if (!stats.isFile())
-		throw new Error('Image-Watermark::embedWatermark : Image does not exists at : ' + source);		
+		throw new Error('Image-Watermark::embedWatermark : Image does not exists at : ' + source);
 
 	// If options are not properly specified, use default options
 	if (!options || typeof options !== 'object')
@@ -200,7 +210,7 @@ function embedWatermark(source, options) {
 	  im.convert(retObj.args, function(err, stdout) {
 	  	if (err)
 	    	console.log('Image-Watermark::embedWatermark : Error in applying watermark : ' + err);
-	    else 
+	    else
 	      	console.log('Image-Watermark::embedWatermark : Successfully applied watermark. Please check it at :\n ' + retObj.outputPath);
 	  });
 	});
@@ -209,7 +219,7 @@ function embedWatermark(source, options) {
 function embedWatermarkWithCb(source, options, callback) {
 
 	var error;
-	
+
 	if ((arguments.length < 2) ||
 		(arguments.length === 2 && !ratify.isFunction(arguments[1])) ||
 		(arguments.length > 2 && !ratify.isFunction(arguments[2]))) {
@@ -256,7 +266,7 @@ function embedWatermarkWithCb(source, options, callback) {
 			});
 		}
 	});
-	
+
 	return;
 }
 
