@@ -3,7 +3,7 @@ A powerful watermark library based on ImageMagick for node.js. This can be used 
 
 ### Installation
 
-	'npm install image-watermark'
+	npm install image-watermark
 
 ### Server-side usage
 
