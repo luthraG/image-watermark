@@ -18,7 +18,9 @@ var defaultOptions = {
 	'output-format'		: 'jpg',
 	'position'			  : 'Center',
 	'color'				    : 'rgba(0,0,0,0.4)',
-	'resize' 			    : '100%'
+	'resize' 			    : '100%',
+	'density'					: 300,
+	'quality'					: 100
 }
 
 //
@@ -69,6 +71,8 @@ function _parseOptions(imageData, source, options) {
     var resize = options.resize ? options.resize : defaultOptions.resize;
     var outputPath = options.dstPath ? options.dstPath :
     				 path.dirname(source) + '/watermark' + path.extname(source);
+    var density = options.density || defaultOptions.density;
+    var quality = options.quality || defaultOptions.quality;
     var position = _isValidPosition(options.position) ? options.position : 'Center';
     var	angle = null,
         pointsize = null;
@@ -160,7 +164,11 @@ function _parseOptions(imageData, source, options) {
   	}
 
     var args = [];
+    args.push('-density');
+    args.push(density);
     args.push(source); // original img path
+    args.push('-quality');
+    args.push(quality);
     args.push('-size');
     args.push(width + 'x' + height);
     args.push('-resize');
